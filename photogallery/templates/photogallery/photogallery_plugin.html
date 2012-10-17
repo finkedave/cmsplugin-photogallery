@@ -1,0 +1,42 @@
+{% load sekizai_tags thumbnail %}
+{% addtoblock "js" %}
+<script>
+function refresh_image_data(gallery_id, image_id)
+{
+	 $.get('/photogallery/ajax/get_image_info/' + image_id, {}, 
+	            function(data) {
+		           if(data['image_name']==null)
+		        	   data['image_name'] = ''
+		           if(data['image_name']==null)
+		               data['image_description'] = ''
+	               $('#id_gallery'+gallery_id+'_image_name').html(data['image_name'])
+	               $('#id_gallery'+gallery_id+'_image_description').html(data['image_description'])
+	            }
+	        );	
+}
+{% if scroll_to_gallery %}
+	$(document).ready(function () {
+	    $('html, body').animate({
+	           scrollTop: $("#id_{{scroll_to_gallery}}").offset().top
+	       }, {{scroll_to_gallery_delay}});
+	})
+{%endif%}
+</script>
+
+{% endaddtoblock %}
+<section class="photogallery" id='id_photogallery{{gallery.id}}'>
+    <h1>{{gallery.title}}</h1>
+    <div class="some_class" id="some_id">
+        {% for image in gallery_images %}
+            <a href="javascript:refresh_image_data('{{gallery.id}}', '{{image.id}}')">
+	            {% ifequal image.id selected_image.id %}
+	                <img src="{% thumbnail image.file 400x300 crop="True" upscale="True" %}">
+	            {%else%}
+	                <img src="{% thumbnail image.file 200x200 crop="True" upscale="True" %}">
+	            {%endifequal%}
+            </a>
+        {% endfor %}
+    </div>
+     <h3><div id='id_gallery{{gallery.id}}_image_name'>{{selected_image.name|default_if_none:''}}</span></h3>
+     <span id='id_gallery{{gallery.id}}_image_description'>{{selected_image.description|default_if_none:''}}</span>
+</section>
