@@ -1,4 +1,8 @@
 {% load sekizai_tags thumbnail %}
+% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}photogallery/css/photogallery.css" />
+{% endaddtoblock "css" %}
+
 {% addtoblock "js" %}
 <script>
 function refresh_image_data(gallery_id, image_id)

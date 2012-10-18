@@ -51,7 +51,7 @@ class PhotoGalleryPlugin(CMSPluginBase):
         elif folder_images:
             selected_image = folder_images[0]
         
-        if SCROLL_TO_GALLERY:
+        if key_value and SCROLL_TO_GALLERY:
             scroll_to_gallery = gallery_key
             
         context.update({'gallery':instance,
