@@ -1,3 +1,3 @@
 include README.rst
-recursive-include newsletter/templates *.html
-recursive-include newsletter/static *.js
+recursive-include photgallery/templates *.html
+recursive-include photgallery/static *.js
