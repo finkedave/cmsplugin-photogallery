@@ -1,0 +1,16 @@
+{% load sekizai_tags thumbnail %}
+{% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}photogallery/css/photogallery.css" />
+{% endaddtoblock "css" %}
+
+<section class="photogallery_promotion" id='id_photogallerypromotion_{{promotion.id}}'>
+    <h1>{{promotion.title}}</h1>
+    Description - {{promotion.description}}
+    <div class="some_class" id="some_id">
+        {% for image in gallery_images %}
+            <a href="{{image.gallery_page_url}}">
+	                <img src="{% thumbnail image.file 100x100 crop="True" upscale="True" %}">
+            </a>
+        {% endfor %}
+    </div>
+</section>

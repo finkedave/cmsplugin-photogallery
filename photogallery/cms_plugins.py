@@ -3,11 +3,22 @@ from django.template import loader
 
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
-from models import PhotoGallery, PhotoGalleryPromotion
+from models import PhotoGallery, PhotoGalleryPromotion, HORIZONTAL, VERTICAL
 from forms import PhotoGalleryPromotionPluginForm
 from filer.models.imagemodels import Image
 from settings import GALLERY_IMAGE_COUNT, GALLERY_PROMOTION_COUNT, \
-            SCROLL_TO_GALLERY, SCROLL_TO_GALLERY_DELAY
+            SCROLL_TO_GALLERY, SCROLL_TO_GALLERY_DELAY, GALLERY_PROMOTION_COUNT,\
+            PROMOTION_LINK_ATTR
+
+def get_folder_images(folder, user):
+        qs_files = folder.files.instance_of(Image)
+        if user.is_staff:
+            return qs_files
+        else:
+            return qs_files.filter(is_public=True)
+
+PROMOTION_ORIENTATION_TO_TEMPLATE = {HORIZONTAL:'photogallery/photogallery_promotion_horz_plugin.html',
+                                     VERTICAL:'photogallery/photogallery_promotion_vert_plugin.html'}
 
 class PhotoGalleryPlugin(CMSPluginBase):
     """
@@ -19,17 +30,9 @@ class PhotoGalleryPlugin(CMSPluginBase):
     name = 'Photo Gallery'
     render_template = 'photogallery/photogallery_plugin.html'
     admin_preview = False
-    
-    
-    def get_folder_images(self, folder, user):
-        qs_files = folder.files.instance_of(Image)
-        if user.is_staff:
-            return qs_files
-        else:
-            return qs_files.filter(is_public=True)
         
     def render(self, context, instance, placeholder):
-        folder_images = self.get_folder_images(instance.filer_folder,
+        folder_images = get_folder_images(instance.filer_folder,
                                                context['request'].user)
         
         if len(folder_images)>GALLERY_IMAGE_COUNT:
@@ -37,7 +40,7 @@ class PhotoGalleryPlugin(CMSPluginBase):
         
         selected_image = None
         scroll_to_gallery = None
-        gallery_key = 'photogallery%d' % instance.id
+        gallery_key = '%s%d' % (PROMOTION_LINK_ATTR, instance.id)
         key_value =  context['request'].GET.get(gallery_key, None)
         
         if key_value:
@@ -77,7 +80,28 @@ class PhotoGalleryPromotionPlugin(CMSPluginBase):
     admin_preview = False
 
     def render(self, context, instance, placeholder):
-        context.update({'object':instance})
+        
+        photogallery = instance.photogallery
+        folder_images = get_folder_images(photogallery.filer_folder,
+                                               context['request'].user)
+        
+        if len(folder_images)>GALLERY_PROMOTION_COUNT:
+            folder_images = folder_images[:GALLERY_PROMOTION_COUNT]
+        
+        gallery_page = instance.page
+        
+        prefix_url = "%s?%s%d" %(gallery_page.get_absolute_url(), 
+                                 PROMOTION_LINK_ATTR, photogallery.id)
+        index_counter = 0
+        for image in folder_images:
+            image.gallery_page_url = '%s=%d' %(prefix_url, index_counter)
+            index_counter+=1
+        
+        
+        self.render_template = PROMOTION_ORIENTATION_TO_TEMPLATE[instance.orientation]
+        context.update({'promotion':instance,
+                        'gallery_images':folder_images,
+                        })
         return context
 
 plugin_pool.register_plugin(PhotoGalleryPromotionPlugin)
