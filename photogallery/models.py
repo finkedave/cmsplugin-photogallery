@@ -1,3 +1,4 @@
+""" PhotoGallery Models """
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from cms.models import CMSPlugin, Page  
@@ -19,6 +20,7 @@ VERTICAL = 'v'
 HORIZONTAL = 'h'
 ORIENTATION_CHOICES = ((HORIZONTAL, 'Horizontal'),
                        (VERTICAL, 'Vertical'))
+
 class PhotoGalleryPromotion(CMSPlugin):
     photogallery = models.ForeignKey(PhotoGallery, null=False, blank=False)
     page = models.ForeignKey(Page, null=False, blank=False,
