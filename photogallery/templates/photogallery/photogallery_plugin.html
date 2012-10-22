@@ -1,46 +1,77 @@
 {% load sekizai_tags thumbnail %}
 {% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}photogallery/css/photogallery.css" />
+    
+    <style> 
+ /* This rule is read by Galleria to define the gallery height: */
+           
+    </style>
 {% endaddtoblock "css" %}
 
 {% addtoblock "js" %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script src="{{ STATIC_URL }}photogallery/js/galleria-1.2.8.min.js"></script>
+<script src="{{ STATIC_URL }}photogallery/js/galleria.classic.min.js"></script>
 <script>
-function refresh_image_data(gallery_id, image_id)
-{
-	 $.get('/photogallery/ajax/get_image_info/' + image_id, {}, 
-	            function(data) {
-		           if(data['image_name']==null)
-		        	   data['image_name'] = ''
-		           if(data['image_name']==null)
-		               data['image_description'] = ''
-	               $('#id_gallery'+gallery_id+'_image_name').html(data['image_name'])
-	               $('#id_gallery'+gallery_id+'_image_description').html(data['image_description'])
-	            }
-	        );	
-}
+   
+
 {% if scroll_to_gallery %}
 	$(document).ready(function () {
 	    $('html, body').animate({
 	           scrollTop: $("#id_{{scroll_to_gallery}}").offset().top
 	       }, {{scroll_to_gallery_delay}});
+	       
 	})
 {%endif%}
+   
+	Galleria.configure({
+    lightbox: true ,
+    showcounter: false,
+    height: 320
+	});
+	Galleria.run('#photogallery{{gallery.id}}', {
+	 extend: function(options) {
+     	this.bind('image', function(e) {
+     		//console.log( this.get('container').parentNode ); //  window.location.search
+     		var nu=this.get('container').parentNode.id;
+     		var cc="=";
+     		var st=nu.concat(cc);
+     		var vl=e.index;
+     		var nurl=st.concat(vl);
+     		console.log(nurl);
+     		window.location.hash=nurl;
+			
+     	});
+     },
+    dataConfig: function(img) {
+       //can add as many fields and tags to descr that we want to and I can alter the way the desc. box works  I just started with  
+        return {
+            title: $(img).next('h2').html(), 
+            description: $(img).siblings('.descr').html() 
+            
+        };
+    }
+    
+});
+
 </script>
 
 {% endaddtoblock %}
 <section class="photogallery" id='id_photogallery{{gallery.id}}'>
     <h1>{{gallery.title}}</h1>
-    <div class="some_class" id="some_id">
+    <div class="some_class" id="photogallery{{gallery.id}}" style="width: 420px">
         {% for image in gallery_images %}
-            <a href="javascript:refresh_image_data('{{gallery.id}}', '{{image.id}}')">
-	            {% ifequal image.id selected_image.id %}
-	                <img src="{% thumbnail image.file 400x300 crop="True" upscale="True" %}">
-	            {%else%}
-	                <img src="{% thumbnail image.file 200x200 crop="True" upscale="True" %}">
-	            {%endifequal%}
+        <div class="image">
+            <a href="{% thumbnail image.file 400x300 crop="True" upscale="True" %}" >
+	           
+	                <img src="{% thumbnail image.file 400x300 crop="True" upscale="True" %}" >
+	                <h2>{{image.name}}</h2>
+	                
+	               <div class="descr"><strong>{{image.description}}</strong></br>{{image.default_caption}}</br>by {{image.author}}</div>
+	          
             </a>
+         </div>   
         {% endfor %}
     </div>
-     <h3><div id='id_gallery{{gallery.id}}_image_name'>{{selected_image.name|default_if_none:''}}</span></h3>
-     <span id='id_gallery{{gallery.id}}_image_description'>{{selected_image.description|default_if_none:''}}</span>
+    
 </section>
