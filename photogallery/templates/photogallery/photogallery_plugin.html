@@ -15,33 +15,46 @@
 <script>
    
 
-{% if scroll_to_gallery %}
-	$(document).ready(function () {
-	    $('html, body').animate({
-	           scrollTop: $("#id_{{scroll_to_gallery}}").offset().top
-	       }, {{scroll_to_gallery_delay}});
-	       
-	})
-{%endif%}
-   
+$(document).ready(function () {
+	reg_ex = /.*#({{promotion_link_attr}}\d+)=(\d+)/
+	matches = reg_ex.exec(window.location.href)
+	if(matches!=null)
+	{
+		start_image_index = matches[2]
+		gallery_name = matches[1]
+		{% if scroll_to_gallery %}
+		    if($("#id_"+gallery_name).offset())
+		    {
+		        $('html, body').animate({
+		               scrollTop: $("#id_"+gallery_name).offset().top
+		           }, {{scroll_to_gallery_delay}});
+	        }
+		{%endif%}
+	}
+	else
+	{
+		start_image_index = 0
+	}
+	
 	Galleria.configure({
-    lightbox: true ,
-    showcounter: false,
-    height: 320
-	});
-	Galleria.run('#photogallery{{gallery.id}}', {
-	 extend: function(options) {
-     	this.bind('image', function(e) {
-     		//console.log( this.get('container').parentNode ); //  window.location.search
-     		var nu=this.get('container').parentNode.id;
-     		var cc="=";
-     		var st=nu.concat(cc);
-     		var vl=e.index;
-     		var nurl=st.concat(vl);
-     		console.log(nurl);
-     		window.location.hash=nurl;
-			
-     	});
+	    lightbox: true ,
+	    showcounter: false,
+	    height: 320,
+	    show : start_image_index
+	    });
+    Galleria.run('#photogallery{{gallery.id}}', {
+     extend: function(options) {
+        this.bind('image', function(e) {
+            //console.log( this.get('container').parentNode ); //  window.location.search
+            var nu=this.get('container').parentNode.id;
+            var cc="=";
+            var st=nu.concat(cc);
+            var vl=e.index;
+            var nurl=st.concat(vl);
+            console.log(nurl);
+            window.location.hash=nurl;
+            
+        });
      },
     dataConfig: function(img) {
        //can add as many fields and tags to descr that we want to and I can alter the way the desc. box works  I just started with  
@@ -51,12 +64,38 @@
             
         };
     }
-    
-});
+	    
+	});
+})
+
+	
 
 </script>
 
 {% endaddtoblock %}
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
 <section class="photogallery" id='id_photogallery{{gallery.id}}'>
     <h1>{{gallery.title}}</h1>
     <div class="some_class" id="photogallery{{gallery.id}}" style="width: 420px">

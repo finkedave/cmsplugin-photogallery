@@ -42,40 +42,13 @@ class PhotoGalleryPlugin(CMSPluginBase):
         
         if len(folder_images) > GALLERY_IMAGE_COUNT:
             folder_images = folder_images[:GALLERY_IMAGE_COUNT]
-        
-        selected_image = None
-        scroll_to_gallery = None
-        
-        # Now figure out if in teh GET params what image to show first
-        gallery_key = '%s%d' % (PROMOTION_LINK_ATTR, instance.id)
-        key_value =  context['request'].GET.get(gallery_key, None)
-        
-        if key_value:
-            try:
-                key_value = int(key_value)
-                # Note key value is based of 0 indexing
-                if key_value < 0 or key_value >= len(folder_images):
-                    key_value = None
-            except ValueError:
-                key_value = None
                 
-        if key_value:
-            selected_image = folder_images[key_value]
-        elif folder_images:
-            # if no argument was sent in for the gallery. Show the
-            # first image
-            selected_image = folder_images[0]
-        
-        # If the key was found in GET set to scroll to it on page load
-        # if SCROLL_TO_GALLERY is set
-        if key_value and SCROLL_TO_GALLERY:
-            scroll_to_gallery = gallery_key
-            
+
         context.update({'gallery':instance,
                         'gallery_images':folder_images,
-                        'selected_image':selected_image,
-                        'scroll_to_gallery':scroll_to_gallery,
-                        'scroll_to_gallery_delay':SCROLL_TO_GALLERY_DELAY})
+                        'scroll_to_gallery':SCROLL_TO_GALLERY,
+                        'scroll_to_gallery_delay':SCROLL_TO_GALLERY_DELAY,
+                        'promotion_link_attr':PROMOTION_LINK_ATTR})
         return context
 
 plugin_pool.register_plugin(PhotoGalleryPlugin)
@@ -105,7 +78,7 @@ class PhotoGalleryPromotionPlugin(CMSPluginBase):
         
         # Now populate each image with a URL that can be linked to the CMS
         # page 
-        prefix_url = "%s?%s%d" %(instance.page.get_absolute_url(), 
+        prefix_url = "%s#%s%d" %(instance.page.get_absolute_url(), 
                                  PROMOTION_LINK_ATTR, photogallery.id)
         # Image indexes are 0 indexed
         index_counter = 0
