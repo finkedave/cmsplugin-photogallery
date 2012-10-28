@@ -1,6 +1,7 @@
 {% load sekizai_tags thumbnail %}
 {% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}photogallery/css/photogallery.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}photogallery/css/boilerplate.css" />
     
     <style> 
  /* This rule is read by Galleria to define the gallery height: */
@@ -12,8 +13,11 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
 <script src="{{ STATIC_URL }}photogallery/js/galleria-1.2.8.min.js"></script>
 <script src="{{ STATIC_URL }}photogallery/js/galleria.classic.min.js"></script>
+<script src="{{ STATIC_URL }}photogallery/js/respond.min.js"></script>
+
 <script>
    
+
 
 $(document).ready(function () {
 	reg_ex = /.*#({{promotion_link_attr}}\d+)=(\d+)/
@@ -39,7 +43,9 @@ $(document).ready(function () {
 	Galleria.configure({
 	    lightbox: true ,
 	    showcounter: false,
-	    height: 320,
+	    height: 0.7625,
+	    responsive: true,
+	    
 	    show : start_image_index
 	    });
     Galleria.run('#photogallery{{gallery.id}}', {
@@ -59,7 +65,7 @@ $(document).ready(function () {
     dataConfig: function(img) {
        //can add as many fields and tags to descr that we want to and I can alter the way the desc. box works  I just started with  
         return {
-            title: $(img).next('h2').html(), 
+            title: $(img).next('h1').html(), 
             description: $(img).siblings('.descr').html() 
             
         };
@@ -73,40 +79,31 @@ $(document).ready(function () {
 </script>
 
 {% endaddtoblock %}
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+<div class="addthis_toolbox addthis_default_style" style="float:right; padding-right:60px; padding-top:5px;">
+<a class="addthis_button_preferred_1"></a>
+<a class="addthis_button_preferred_2"></a>
+<a class="addthis_button_preferred_3"></a>
+<a class="addthis_button_preferred_4"></a>
+<a class="addthis_button_compact"></a>
+<a class="addthis_counter addthis_bubble_style"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-508d69e501048354"></script>
+<!-- AddThis Button END -->
 
-<section class="photogallery" id='id_photogallery{{gallery.id}}'>
+<!-- AddThis Button BEGIN -->
+
+<section class="photogallery gridContainer" id='id_photogallery{{gallery.id}}'>
     <h1>{{gallery.title}}</h1>
-    <div class="some_class" id="photogallery{{gallery.id}}" style="width: 420px">
+
+    <div class="some_class" id="photogallery{{gallery.id}}" >
         {% for image in gallery_images %}
         <div class="image">
-            <a href="{% thumbnail image.file 400x300 crop="True" upscale="True" %}" >
+            <a href="{% thumbnail image.file 800x600 crop="True" upscale="True" %}" >
 	           
-	                <img src="{% thumbnail image.file 400x300 crop="True" upscale="True" %}" >
-	                <h2>{{image.name}}</h2>
+	                <img src="{% thumbnail image.file 80x60 crop="True" upscale="True" %}" >
+	                <h1>{{image.name}}</h1>
 	                
-	               <div class="descr"><strong>{{image.description}}</strong></br>{{image.default_caption}}</br>by {{image.author}}</div>
+	               <div class="descr"><strong>{{image.description}}</strong></br>{{image.default_caption}}</br><i>by {{image.author}}</i></div>
 	          
             </a>
          </div>   
