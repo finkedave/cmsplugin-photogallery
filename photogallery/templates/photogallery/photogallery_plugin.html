@@ -14,71 +14,67 @@
 <script src="{{ STATIC_URL }}photogallery/js/galleria-1.2.8.min.js"></script>
 <script src="{{ STATIC_URL }}photogallery/js/galleria.classic.min.js"></script>
 <script src="{{ STATIC_URL }}photogallery/js/respond.min.js"></script>
+<script src="{{ STATIC_URL }}photogallery/js/photogallery.js"></script>
 
 <script>
-   
-
-
-$(document).ready(function () {
-	reg_ex = /.*#({{promotion_link_attr}}\d+)=(\d+)/
-	matches = reg_ex.exec(window.location.href)
-	if(matches!=null)
-	{
-		start_image_index = matches[2]
-		gallery_name = matches[1]
-		{% if scroll_to_gallery %}
-		    if($("#id_"+gallery_name).offset())
-		    {
-		        $('html, body').animate({
-		               scrollTop: $("#id_"+gallery_name).offset().top
-		           }, {{scroll_to_gallery_delay}});
-	        }
-		{%endif%}
-	}
-	else
-	{
-		start_image_index = 0
-	}
-	
-	Galleria.configure({
-	    lightbox: true ,
-	    showcounter: false,
-	    height: 0.7625,
-	    responsive: true,
-	    
-	    show : start_image_index
-	    });
-    Galleria.run('#photogallery{{gallery.id}}', {
-     extend: function(options) {
-        this.bind('image', function(e) {
-            //console.log( this.get('container').parentNode ); //  window.location.search
-            var nu=this.get('container').parentNode.id;
-            var cc="=";
-            var st=nu.concat(cc);
-            var vl=e.index;
-            var nurl=st.concat(vl);
-            console.log(nurl);
-            window.location.hash=nurl;
-            
+Galleria.configure({
+        lightbox: true ,
+        showcounter: false,
+        height: 0.7625,
+        responsive: true,
+        extend: function(options) {
+            this.bind('image', function(e) {
+                //console.log( this.get('container').parentNode ); //  window.location.search
+                var nu=this.get('container').parentNode.id;
+                var cc="=";
+                var st=nu.concat(cc);
+                var vl=e.index;
+                var nurl=st.concat(vl);
+                console.log(nurl);
+                window.location.hash=nurl;
+                
+            });
+         },
+        dataConfig: function(img) {
+           //can add as many fields and tags to descr that we want to and I can alter the way the desc. box works  I just started with  
+            return {
+                title: $(img).next('h1').html(), 
+                description: $(img).siblings('.descr').html() 
+                
+            };
+        }
         });
-     },
-    dataConfig: function(img) {
-       //can add as many fields and tags to descr that we want to and I can alter the way the desc. box works  I just started with  
-        return {
-            title: $(img).next('h1').html(), 
-            description: $(img).siblings('.descr').html() 
-            
-        };
-    }
-	    
-	});
-})
-
-	
+		Galleria.ready(function() {
+			var container = this.get('target');
+		    var gallery_container_id = container.id;
+		    selected_gallery_attrs = get_selected_gallery_attrs('{{promotion_link_attr}}')
+			if(selected_gallery_attrs!=null && selected_gallery_attrs[1]==gallery_container_id)
+		    {
+				   this._options['show']=selected_gallery_attrs[2]
+				   {% if scroll_to_gallery %}
+				       selected_gallery_section = $('#id_section_'+gallery_container_id)
+					   if(selected_gallery_section.offset())
+			           {
+						   $('html, body').animate({
+		                       scrollTop: selected_gallery_section.offset().top
+		                   }, {{scroll_to_gallery_delay}});
+			           }
+				{% endif %}
+		    }
+		})        
 
 </script>
-
 {% endaddtoblock %}
+
+{% addtoblock "js" %}
+<script>
+$(document).ready(function () {
+    Galleria.run('#{{promotion_link_attr}}{{gallery.id}}', {
+    });
+})
+</script>
+{% endaddtoblock %}
+
 <div class="addthis_toolbox addthis_default_style" style="float:right; padding-right:60px; padding-top:5px;">
 <a class="addthis_button_preferred_1"></a>
 <a class="addthis_button_preferred_2"></a>
@@ -92,10 +88,10 @@ $(document).ready(function () {
 
 <!-- AddThis Button BEGIN -->
 
-<section class="photogallery gridContainer" id='id_photogallery{{gallery.id}}'>
+<section class="photogallery gridContainer" id='id_section_photogallery{{gallery.id}}'>
     <h1>{{gallery.title}}</h1>
 
-    <div class="some_class" id="photogallery{{gallery.id}}" >
+    <div class="some_class" id="{{promotion_link_attr}}{{gallery.id}}" >
         {% for image in gallery_images %}
         <div class="image">
             <a href="{% thumbnail image.file 800x600 crop="True" upscale="True" %}" >
