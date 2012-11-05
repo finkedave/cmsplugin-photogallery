@@ -31,14 +31,20 @@ Galleria.configure({
             this.bind('loadfinish', function(e) {
                 gallery_id = gallery.get('container').parentNode.id
                 $("#id_share_"+gallery_id+" a").click(function (){
-                    index = gallery.getIndex()
-                    window_location = window.location.href.replace(/#.*/,"")
-                    gallery_id = gallery.get('container').parentNode.id
-                    link = window_location + '#' + gallery_id + '-' + index
-                    data = gallery.getData(index)
-                    addthis.update('share', 'url', link);
-                    addthis.update('share', 'title', data.title); 
-                    addthis.update('share', 'description', data.description); 
+	                    index = gallery.getIndex()
+	                    window_location = window.location.href.replace(/#.*/,"")
+	                    gallery_id = gallery.get('container').parentNode.id
+	                    link = window_location + '#' + gallery_id + '-' + index
+	                    data = gallery.getData(index)
+	                    addthis.update('share', 'url', link);
+	                    addthis.update('share', 'title', data.title); 
+	                    addthis.update('share', 'description', data.description);
+	                    window.setTimeout(function(){
+	                    	addthis.update('share', 'url', null);
+	                        addthis.update('share', 'title', null); 
+	                        addthis.update('share', 'description', null);
+	                    	
+	                    },1000)
                     } )        
                 
             })
