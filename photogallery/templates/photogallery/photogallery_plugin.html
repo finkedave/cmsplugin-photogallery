@@ -32,11 +32,13 @@ Galleria.configure({
                 gallery_id = gallery.get('container').parentNode.id
                 $("#id_share_"+gallery_id+" a").click(function (){
                     index = gallery.getIndex()
-                    window_location = window.location.href
+                    window_location = window.location.href.replace(/#.*/,"")
                     gallery_id = gallery.get('container').parentNode.id
                     link = window_location + '#' + gallery_id + '-' + index
-                    
-                    addthis.update('share', 'url', link); 
+                    data = gallery.getData(index)
+                    addthis.update('share', 'url', link);
+                    addthis.update('share', 'title', data.title); 
+                    addthis.update('share', 'description', data.description); 
                     } )        
                 
             })
@@ -83,7 +85,7 @@ $(document).ready(function () {
 {% endaddtoblock %}
 
 <div id='id_share_photogallery{{gallery.id}}' class="addthis_toolbox addthis_default_style" style="float:right; padding-right:60px; padding-top:5px;">
-<a class="addthis_button_preferred_1" addthis:title="dave"></a>
+<a class="addthis_button_preferred_1"></a>
 <a class="addthis_button_preferred_2"></a>
 <a class="addthis_button_preferred_3"></a>
 <a class="addthis_button_preferred_4"></a>
