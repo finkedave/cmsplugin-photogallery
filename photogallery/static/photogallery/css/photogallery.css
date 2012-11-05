@@ -192,6 +192,20 @@ a:hover, a:active {
 	margin: auto;
 
 }
+.horiz_def_desc {
+	float:left; width: 180px; padding: 8px;
+}
+.horiz_def_gall{
+	float:left; max-width:190px;
+}
+.horiz_def_gall img{
+	padding-bottom: 5px;
+}
+.vert_def_desc {
+	padding:8px;
+
+}
+
 /*====================*/
 /*=== Other Styles ===*/
 /*====================*/

@@ -15,10 +15,13 @@
 .galleria-stage {
     position: absolute;
     top: 10px;
-    bottom: 160px;
+    bottom: 166px;
     left: 10px;
     right: 10px;
     overflow:hidden;
+}
+.galleria-images{
+    height: 90%;
 }
 .galleria-thumbnails-container {
     height: 50px;
@@ -46,6 +49,10 @@
     width: 60px;
     float: left;
     cursor: pointer;
+
+}
+.galleria-image img {
+     border: 1px solid #000;
 }
 .galleria-thumbnails {
     margin: 0 auto;
@@ -91,13 +98,13 @@
 .galleria-info-title {
     font: bold 16px/1.1 arial,sans-serif;
     margin: 0;
-    color: #000;
+    
     margin-bottom: 7px;
 }
 .galleria-info-description {
     font:  12px/1.4 georgia,serif;
     margin: 0;
-    color: #000;
+    
     overflow: auto;
 }
 /*.galleria-info-close {

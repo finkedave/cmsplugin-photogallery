@@ -1,21 +1,4 @@
 {% extends 'photogallery/photogallery_promotion_plugin.html'%}
-{% load sekizai_tags thumbnail %}
-{% block promo %}
-<section class="photogallery_promotionV" id='id_photogallerypromotion_{{promotion.id}}' >
-    
-    <h2>{{promotion.title}}</h2>
-    <div>
-        <div style="padding:8px;">
-	    {{promotion.description}}
-	    </div>
-	    <div class="vgall_promo" id="some_id">
-	        {% for image in gallery_images %}
-	            <a href="{{image.gallery_page_url}}">
-		                <img src="{% thumbnail image.file 60x60 crop="True" upscale="True" %}">
-	            </a>
-	        {% endfor %}
-	    </div>
-    </div>
-    <div style="clear: both;"></div>
-</section>
-{% endblock %}
+{% block main_promo_class %}photogallery_promotionV{%endblock%}
+{% block description_class %}vert_def_desc{%endblock%}
+{% block promotion_class %}vgall_promo{%endblock%}

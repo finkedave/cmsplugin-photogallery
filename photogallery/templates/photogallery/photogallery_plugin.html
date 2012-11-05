@@ -2,9 +2,10 @@
 {% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}photogallery/css/photogallery.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}photogallery/css/boilerplate.css" />
-    
+    <link rel="stylesheet" type="text/css" href="http://celerity.lunchbox.pbs.org/css/media/station/css/ff.css" />
+    <link rel="stylesheet" type="text/css" href="http://celerity.lunchbox.pbs.org/css/media/station/css/station-style.css" />
     <style> 
- /* This rule is read by Galleria to define the gallery height: */
+ /* This rule is read by Galleria to define the gallery height:  */
            
     </style>
 {% endaddtoblock "css" %}
@@ -22,6 +23,7 @@ Galleria.configure({
         showcounter: false,
         height: 0.7625,
         responsive: true,
+        imageMargin: 3,
         extend: function(options) {
             this.bind('image', function(e) {
                 //console.log( this.get('container').parentNode ); //  window.location.search
@@ -88,7 +90,7 @@ $(document).ready(function () {
 
 <!-- AddThis Button BEGIN -->
 
-<section class="photogallery gridContainer" id='id_section_photogallery{{gallery.id}}'>
+<section class="photogallery gridContainer clearfix" id='id_section_photogallery{{gallery.id}}'>
     <h1>{{gallery.title}}</h1>
 
     <div class="some_class" id="{{promotion_link_attr}}{{gallery.id}}" >
