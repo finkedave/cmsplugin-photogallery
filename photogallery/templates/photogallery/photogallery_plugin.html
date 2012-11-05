@@ -16,8 +16,10 @@
 <script src="{{ STATIC_URL }}photogallery/js/galleria.classic.min.js"></script>
 <script src="{{ STATIC_URL }}photogallery/js/respond.min.js"></script>
 <script src="{{ STATIC_URL }}photogallery/js/photogallery.js"></script>
-
+<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-508d69e501048354"></script>
 <script>
+
+
 Galleria.configure({
         lightbox: true ,
         showcounter: false,
@@ -25,17 +27,23 @@ Galleria.configure({
         responsive: true,
         imageMargin: 3,
         extend: function(options) {
-            this.bind('image', function(e) {
-                //console.log( this.get('container').parentNode ); //  window.location.search
-                var nu=this.get('container').parentNode.id;
-                var cc="=";
-                var st=nu.concat(cc);
-                var vl=e.index;
-                var nurl=st.concat(vl);
-                console.log(nurl);
-                window.location.hash=nurl;
+            var gallery = this;
+            this.bind('loadfinish', function(e) {
+                gallery_id = gallery.get('container').parentNode.id
+                $("#id_share_"+gallery_id+" a").click(function (){
+                    index = gallery.getIndex()
+                    window_location = window.location.href
+                    gallery_id = gallery.get('container').parentNode.id
+                    link = window_location + '#' + gallery_id + '-' + index
+                    
+                    alert(gallery.title)
+                    alert(gallery.getActiveImage().next('h1').html())
+                    addthis.update('share', 'url', link); 
+                    addthis.update('share', 'title', title);
+                    addthis.update('share', 'description', description)} )        
                 
-            });
+            })
+
          },
         dataConfig: function(img) {
            //can add as many fields and tags to descr that we want to and I can alter the way the desc. box works  I just started with  
@@ -77,15 +85,14 @@ $(document).ready(function () {
 </script>
 {% endaddtoblock %}
 
-<div class="addthis_toolbox addthis_default_style" style="float:right; padding-right:60px; padding-top:5px;">
-<a class="addthis_button_preferred_1"></a>
+<div id='id_share_photogallery{{gallery.id}}' class="addthis_toolbox addthis_default_style" style="float:right; padding-right:60px; padding-top:5px;">
+<a class="addthis_button_preferred_1" addthis:title="dave"></a>
 <a class="addthis_button_preferred_2"></a>
 <a class="addthis_button_preferred_3"></a>
 <a class="addthis_button_preferred_4"></a>
 <a class="addthis_button_compact"></a>
-<a class="addthis_counter addthis_bubble_style"></a>
 </div>
-<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-508d69e501048354"></script>
+
 <!-- AddThis Button END -->
 
 <!-- AddThis Button BEGIN -->

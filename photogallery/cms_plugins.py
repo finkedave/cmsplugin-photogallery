@@ -83,7 +83,7 @@ class PhotoGalleryPromotionPlugin(CMSPluginBase):
         # Image indexes are 0 indexed
         index_counter = 0
         for image in folder_images:
-            image.gallery_page_url = '%s=%d' %(prefix_url, index_counter)
+            image.gallery_page_url = '%s-%d' %(prefix_url, index_counter)
             index_counter+=1
         
         # Template is determined by the orientation
