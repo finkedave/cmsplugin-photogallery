@@ -36,8 +36,6 @@ Galleria.configure({
                     gallery_id = gallery.get('container').parentNode.id
                     link = window_location + '#' + gallery_id + '-' + index
                     
-                    alert(gallery.title)
-                    alert(gallery.getActiveImage().next('h1').html())
                     addthis.update('share', 'url', link); 
                     addthis.update('share', 'title', title);
                     addthis.update('share', 'description', description)} )        
