@@ -28,7 +28,7 @@ img, object, embed, video {
 
 /* Mobile Layout: 480px and below. */
 .photogallery {
-	border: 1px solid #000;
+	outline: 1px solid #ccc;
 	background: #fff;
 	margin: 10px;
 	padding-bottom: 10px;
@@ -39,6 +39,8 @@ img, object, embed, video {
 	width: 87.36%;
 	padding-left: 1.82%;
 	padding-right: 1.82%;
+	padding-top: 10px;
+	padding-bottom:10px;
 }
 #LayoutDiv1 {
 	clear: both;
@@ -49,20 +51,32 @@ img, object, embed, video {
 }
 .photogallery_promotion {
 	max-width: 400px;
-	border: 1px solid #000;
+	padding: 10px;
+	margin: 10px auto;
+	outline: 1px solid #ccc;
 	background: #fff;
 }
 .photogallery_promotionV {
 	max-width: 200px;
-	border: 1px solid #000;
+	padding: 10px;
+	margin: 10px auto;
+	outline: 1px solid #ccc;
 	background: #fff;
-	max-height: 400px;
+
 }
+
+.horiz_def_gall img {
+	padding: 5px 5px 5px 5px;
+	margin: auto;
+
+}
+
 .vgall_promo {
 
 	text-align: center;
 	bottom: 10px;
 }
+
 .vgall_promo img {
 	
 	padding: 5px 5px 5px 5px;
@@ -95,7 +109,6 @@ img, object, embed, video {
 	max-width: 1232px;
 	padding-left: 0.9%;
 	padding-right: 0.9%;
-	margin: auto;
 }
 #LayoutDiv1 {
 	clear: both;
@@ -106,128 +119,46 @@ img, object, embed, video {
 }
 
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td {
-	margin:0;
-	padding:0;
-	border:0;
-	outline:0;
-	font-weight:inherit;
-	font-style:inherit;
-	font-size:100%;
-	font-family:inherit;
-	vertical-align:baseline;
-}
-body {
-	line-height:1;
-	color:black;
-	background:white;
-}
-table {
-	border-collapse:separate;
-	border-spacing:0;
-}
-caption, th, td {
-	text-align:left;
-	font-weight:normal;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content:"";
-}
-blockquote, q {
-	quotes:"" "";
-}
-/* HTML5 tags */
-header, section, footer,
-aside, nav, article, figure {
-	display: block;
-}
-
 /*===================*/
 /*=== Main Styles ===*/
 /*===================*/
-body {
-	font:14px/1.6 Georgia, Palatino, Palatino Linotype, Times, Times New Roman, serif;
-	color:#333;
-	background:#eee;
-}
-
-a, a:visited {
-	color:blue;
-	text-decoration:none;
-}
-a:hover, a:active {
-	color:#000;
-	text-decoration:none;
-}
 
 .photogallery_promotion {
-	margin: 5px;
-	max-width: 400px;
-	border: 1px solid #000;
+	max-width: 560px;
+	padding: 10px;
 	background: #fff;
+	outline: 1px solid #ccc;
+	margin: 10px;
 }
 .photogallery_promotionV {
-	max-width: 200px;
-	border: 1px solid #000;
+	max-width: 240px;
 	background: #fff;
-	max-height: 400px;
-	margin: 5px;
+	outline: 1px solid #ccc;
+	padding: 10px;
+	margin: 10px;
 }
 .vgall_promo {
-
 	text-align: center;
 	bottom: 10px;
 }
 .vgall_promo img {
-	
-	padding: 5px 5px 5px 5px;
-	margin: auto;
-
+	padding: 10px;
+}
+.vgall_promo img:nth-child(3){
+	/*clear: left;*/
 }
 .horiz_def_desc {
-	float:left; width: 180px; padding: 8px;
+	float:left; 
+	width: 180px; 
+	padding: 10px 0;
 }
 .horiz_def_gall{
-	float:left; max-width:190px;
+	float:left; 
+	max-width: 360px;
 }
 .horiz_def_gall img{
-	padding-bottom: 5px;
+	padding: 10px;
 }
 .vert_def_desc {
-	padding:8px;
-
-}
-
-/*====================*/
-/*=== Other Styles ===*/
-/*====================*/
-.clear {
-	clear:both;
-}
-
-
-
-h1 {
-	font: bold 36px/1.1 arial,sans-serif;
-    margin: 0;
-    padding-top: 6px;
-    padding-left: 4px;
-    padding-bottom: 10px;
-    background: #fff;
-}
-h2 {
-	font: bold 24px/1.1 arial,sans-serif;
-    margin: 0;
-    padding-bottom: 10px;
-    padding-top: 6px;
-    padding-left: 4px;
-    background: #fff;
+	padding:10px 0;
 }

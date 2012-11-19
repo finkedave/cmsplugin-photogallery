@@ -1,8 +1,6 @@
 {% load sekizai_tags thumbnail %}
 {% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}photogallery/css/photogallery.css" />
-    <link rel="stylesheet" type="text/css" href="http://celerity.lunchbox.pbs.org/css/media/station/css/ff.css" />
-    <link rel="stylesheet" type="text/css" href="http://celerity.lunchbox.pbs.org/css/media/station/css/station-style.css" />
 {% endaddtoblock "css" %}
 {% block promo %}
 <section class="{% block main_promo_class %}photogallery_promotion{%endblock%}" id='id_photogallerypromotion_{{promotion.id}}' >
@@ -10,12 +8,12 @@
     <h2>{{promotion.title}}</h2>
     <div>
         <div class="{% block description_class %}horiz_def_desc{%endblock%}" >
-           {{promotion.description}}
+           <p>{{promotion.description}}</p>
         </div>
         <div class="{% block promotion_class %}horiz_def_gall{%endblock%}" id="some_id">
             {% for image in gallery_images %}
                 <a href="{{image.gallery_page_url}}">
-                        <img src="{% thumbnail image.file 60x60 crop="True" upscale="True" %}">
+                        <img src="{% thumbnail image.file 80x80 crop="True" upscale="True" %}">
                 </a>
             {% endfor %}
         </div>
